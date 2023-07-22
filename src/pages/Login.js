@@ -1,10 +1,11 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 
 import ButtonGroup from "@atlaskit/button/button-group";
 import LoadingButton from "@atlaskit/button/loading-button";
 import Button from "@atlaskit/button/standard-button";
 import {Checkbox} from "@atlaskit/checkbox";
 import TextField from "@atlaskit/textfield";
+import {login} from "../api/index";
 
 import Form, {
   CheckboxField,
@@ -18,108 +19,130 @@ import Form, {
   ValidMessage,
 } from "@atlaskit/form";
 
-const Login = () => (
-  <div
-    style={{
-      display: "flex",
-      width: "400px",
-      maxWidth: "100%",
-      margin: "200px auto",
-      flexDirection: "column",
-    }}>
-    <Form
-      onSubmit={(data) => {
-        console.log("form data", data);
-        return new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
-          data.username === "error" ? {username: "IN_USE"} : undefined
-        );
+function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = () => {
+    login(username, password)
+      .then((response) => {
+        const jwt = response.data.jwt;
+        localStorage.setItem("jwt", jwt);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "400px",
+        maxWidth: "100%",
+        margin: "200px auto",
+        flexDirection: "column",
       }}>
-      {({formProps, submitting}) => (
-        <form {...formProps}>
-          <FormHeader title='Login'>
-            <p aria-hidden='true'>
-              Required fields are marked with an asterisk <RequiredAsterisk />
-            </p>
-          </FormHeader>
-          <FormSection>
-            <Field
-              aria-required={true}
-              name='username'
-              label='Username'
-              isRequired
-              defaultValue='tienlm'>
-              {({fieldProps, error}) => (
-                <Fragment>
-                  <TextField autoComplete='off' {...fieldProps} />
-                  {!error && (
-                    <HelperMessage>
-                      You can use letters, numbers and periods.
-                    </HelperMessage>
-                  )}
-                  {error && (
-                    <ErrorMessage>
-                      This username is already in use, try another one.
-                    </ErrorMessage>
-                  )}
-                </Fragment>
-              )}
-            </Field>
-            <Field
-              aria-required={true}
-              name='password'
-              label='Password'
-              defaultValue=''
-              isRequired
-              validate={(value) =>
-                value && value.length < 8 ? "TOO_SHORT" : undefined
-              }>
-              {({fieldProps, error, valid, meta}) => {
-                return (
+      <Form
+        onSubmit={(data) => {
+          console.log("form data", data);
+          setUsername(data.username);
+          setPassword(data.password);
+          handleSubmit();
+          return new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+            data.username === "error" ? {username: "IN_USE"} : undefined
+          );
+        }}>
+        {({formProps, submitting}) => (
+          <form {...formProps}>
+            <FormHeader title='Login'>
+              <p aria-hidden='true'>
+                Required fields are marked with an asterisk <RequiredAsterisk />
+              </p>
+            </FormHeader>
+            <FormSection>
+              <Field
+                aria-required={true}
+                name='username'
+                label='Username'
+                isRequired
+                defaultValue='tienlm'>
+                {({fieldProps, error}) => (
                   <Fragment>
-                    <TextField type='password' {...fieldProps} />
-                    {error && !valid && (
+                    <TextField autoComplete='off' {...fieldProps} />
+                    {!error && (
                       <HelperMessage>
-                        Use 8 or more characters with a mix of letters, numbers
-                        and symbols.
+                        You can use letters, numbers and periods.
                       </HelperMessage>
                     )}
                     {error && (
                       <ErrorMessage>
-                        Password needs to be more than 8 characters.
+                        This username is already in use, try another one.
                       </ErrorMessage>
                     )}
-                    {valid && meta.dirty ? (
-                      <ValidMessage>Awesome password!</ValidMessage>
-                    ) : null}
                   </Fragment>
-                );
-              }}
-            </Field>
-            <CheckboxField name='remember' label='Remember me' defaultIsChecked>
-              {({fieldProps}) => (
-                <Checkbox
-                  {...fieldProps}
-                  label='Always sign in on this device'
-                />
-              )}
-            </CheckboxField>
-          </FormSection>
+                )}
+              </Field>
+              <Field
+                aria-required={true}
+                name='password'
+                label='Password'
+                defaultValue=''
+                isRequired
+                validate={(value) =>
+                  value && value.length < 4 ? "TOO_SHORT" : undefined
+                }>
+                {({fieldProps, error, valid, meta}) => {
+                  return (
+                    <Fragment>
+                      <TextField type='password' {...fieldProps} />
+                      {error && !valid && (
+                        <HelperMessage>
+                          Use 4 or more characters with a mix of letters,
+                          numbers and symbols.
+                        </HelperMessage>
+                      )}
+                      {error && (
+                        <ErrorMessage>
+                          Password needs to be more than 4 characters.
+                        </ErrorMessage>
+                      )}
+                      {valid && meta.dirty ? (
+                        <ValidMessage>Awesome password!</ValidMessage>
+                      ) : null}
+                    </Fragment>
+                  );
+                }}
+              </Field>
+              <CheckboxField
+                name='remember'
+                label='Remember me'
+                defaultIsChecked>
+                {({fieldProps}) => (
+                  <Checkbox
+                    {...fieldProps}
+                    label='Always sign in on this device'
+                  />
+                )}
+              </CheckboxField>
+            </FormSection>
 
-          <FormFooter>
-            <ButtonGroup>
-              <Button appearance='subtle'>Cancel</Button>
-              <LoadingButton
-                type='submit'
-                appearance='primary'
-                isLoading={submitting}>
-                Sign up
-              </LoadingButton>
-            </ButtonGroup>
-          </FormFooter>
-        </form>
-      )}
-    </Form>
-  </div>
-);
+            <FormFooter>
+              <ButtonGroup>
+                <Button appearance='subtle'>Cancel</Button>
+                <LoadingButton
+                  type='submit'
+                  appearance='primary'
+                  isLoading={submitting}>
+                  Login
+                </LoadingButton>
+              </ButtonGroup>
+            </FormFooter>
+          </form>
+        )}
+      </Form>
+    </div>
+  );
+}
 
 export default Login;
