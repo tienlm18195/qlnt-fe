@@ -1,11 +1,13 @@
 import React, {Fragment, useState} from "react";
 
+import {useNavigate} from "react-router-dom";
 import ButtonGroup from "@atlaskit/button/button-group";
 import LoadingButton from "@atlaskit/button/loading-button";
 import Button from "@atlaskit/button/standard-button";
 import {Checkbox} from "@atlaskit/checkbox";
 import TextField from "@atlaskit/textfield";
 import {login} from "../api/index";
+import {useAuth} from "../services/AuthProvider";
 
 import Form, {
   CheckboxField,
@@ -18,8 +20,14 @@ import Form, {
   RequiredAsterisk,
   ValidMessage,
 } from "@atlaskit/form";
+import {FIELDS} from "../constant";
 
 function Login() {
+  let navigate = useNavigate();
+  let location = useLocation();
+  let auth = useAuth();
+  let from = location.state?.from?.pathname || "/";
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +35,18 @@ function Login() {
     login(username, password)
       .then((response) => {
         const jwt = response.data.jwt;
-        localStorage.setItem("jwt", jwt);
+        localStorage.setItem(FIELDS.JWT_TOKEN, jwt);
+        localStorage.setItem(FIELDS.USER_NAME, username);
+
+        auth.signin(username, () => {
+          // Send them back to the page they tried to visit when they were
+          // redirected to the login page. Use { replace: true } so we don't create
+          // another entry in the history stack for the login page.  This means that
+          // when they get to the protected page and click the back button, they
+          // won't end up back on the login page, which is also really nice for the
+          // user experience.
+          navigate(from, {replace: true});
+        });
       })
       .catch((err) => {
         console.error(err);
