@@ -38,9 +38,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  let userName = localStorage.getItem(FIELDS.USER_NAME);
-  setUser(userName ? userName : "");
-
   let value = { user, signin, signout };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
