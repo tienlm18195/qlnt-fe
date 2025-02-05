@@ -4,40 +4,26 @@ import { FIELDS } from "../constant";
 
 let AuthContext = React.createContext<AuthContextType>(null!);
 export function useAuth() {
-  return React.useContext(AuthContext);
+  const context = React.useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context;
 }
 
-const fakeAuthProvider = {
-  isAuthenticated: false,
-  signin(callback: VoidFunction) {
-    fakeAuthProvider.isAuthenticated = true;
-    setTimeout(callback, 100); // fake async
-  },
-  signout(callback: VoidFunction) {
-    fakeAuthProvider.isAuthenticated = false;
-    setTimeout(callback, 100);
-  },
-};
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(null);
 
-  let signin = (newUser: string, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-
-      callback();
-    });
+  let signin = (userData: String, callback: VoidFunction) => {
+    return () => {
+      setUser(userData)
+      callback()
+    }
   };
+  let signout = () => setUser(null);
 
-  let signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null);
-      localStorage.setItem(FIELDS.JWT_TOKEN, "");
-      localStorage.setItem(FIELDS.USER_NAME, "");
-      callback();
-    });
-  };
-
-  let value = { user, signin, signout };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, signin, signout }}>
+    {children}
+  </AuthContext.Provider>;
 }

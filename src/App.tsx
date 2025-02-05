@@ -8,7 +8,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import "./Root.css";
+// import "./Root.css";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import {AuthProvider} from "./services/AuthProvider";
@@ -18,17 +18,24 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route
-          path='/'
-          element={
+        <Route path="/login" element={<Login />} />
+        <Route path='/*' element={
             <RequireAuth>
-              <Home />
+              <ProtectedRoutes />
             </RequireAuth>
           }
         />
-        <Route path='/login' element={<Login />} />
       </Routes>
     </AuthProvider>
+  );
+}
+
+const ProtectedRoutes: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/" element = {<Home/>}/>
+      <Route path="/settings" element = {<Home/>}/>
+    </Routes>
   );
 }
 

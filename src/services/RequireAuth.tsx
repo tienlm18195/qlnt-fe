@@ -1,19 +1,36 @@
 import React from "react";
 import useContext, {useLocation, Navigate } from "react-router-dom";
-import AuthContextType from "./AuthContextType";
-import {FIELDS} from "../constant";
 import { useAuth } from "./AuthProvider";
+
+import {validToken} from "../api/index";
+import {AxiosResponse} from "axios";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
     let auth = useAuth();
     let location = useLocation();
-    
+
     if (!auth || !auth.user) {
-        // Redirect them to the /login page, but save the current location they were
-        // trying to go to when they were redirected. This allows us to send them
-        // along to that page after they login, which is a nicer user experience
-        // than dropping them off on the home page.
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        let username = localStorage.getItem('userName');
+        let jwt = localStorage.getItem('jwt');
+
+        if (username && jwt) {
+            validToken(username)
+                .then((res: AxiosResponse<any, any>) => {
+                    console.log('res', res);
+                    auth.signin(username, () => {
+                        console.log('SignIn!!');
+                    });
+                    return children
+                })
+                .catch((err: any) => {
+                    console.log('err', err);
+                    localStorage.clear();
+                    return <Navigate to="/login" state={{ from: location }} replace />
+                });
+        } else {
+            return <Navigate to="/login" state={{ from: location }} replace />;
+        }
+
     }
 
     return children;
