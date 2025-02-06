@@ -1,12 +1,12 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 
-import {useNavigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation, Link} from "react-router-dom";
 import ButtonGroup from "@atlaskit/button/button-group";
 import LoadingButton from "@atlaskit/button/loading-button";
 import Button from "@atlaskit/button/standard-button";
 import {Checkbox} from "@atlaskit/checkbox";
 import TextField from "@atlaskit/textfield";
-import {authenticate} from "../api/index";
+import {authenticate} from "../api/authApi";
 import {useAuth} from "../services/AuthProvider";
 
 import Form, {
@@ -29,6 +29,17 @@ function Login() {
   let location = useLocation();
   let auth = useAuth();
   let from = location.state?.from?.pathname || "/";
+
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Lấy userName từ localStorage
+    const savedUserName = localStorage.getItem("signupUserName");
+    if (savedUserName) {
+      setUserName(savedUserName);
+      localStorage.removeItem("signupUserName"); // Xóa sau khi sử dụng
+    }
+  }, []);
 
   const handleSubmit = (data) => {
     authenticate(data.username, data.password)
@@ -125,6 +136,17 @@ function Login() {
                 )}
               </CheckboxField>
             </FormSection>
+
+            <div style={{marginTop: "10px"}}>
+              <p>
+                Chưa có tài khoản?{" "}
+                <Link to='/signup'>
+                  <span style={{color: "#007bff", cursor: "pointer"}}>
+                    Đăng ký ngay
+                  </span>
+                </Link>
+              </p>
+            </div>
 
             <FormFooter>
               <ButtonGroup>
