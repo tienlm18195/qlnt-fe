@@ -44,13 +44,12 @@ function Login() {
   const handleSubmit = (data) => {
     authenticate(data.username, data.password)
       .then((response) => {
+        console.log("authenticate success!!");
         const jwt = response.data.jwt;
         localStorage.setItem(FIELDS.JWT_TOKEN, jwt);
         localStorage.setItem(FIELDS.USER_NAME, data.username);
 
-        auth.signin(data.username, () => {
-          navigate(from, {replace: true});
-        });
+        auth.signin(data.username, navigate(from, {replace: true}));
       })
       .catch((err) => {
         console.error(err);

@@ -25,10 +25,10 @@ function RequireAuth({ children }: { children: JSX.Element }) {
                 .catch((err: any) => {
                     console.log('err', err);
                     localStorage.clear();
-                    return <Navigate to="/login" state={{ from: location }} replace />
+                    return <Navigate to="/login" state={{ from: '/' }} replace />
                 });
         } else {
-            return <Navigate to="/login" state={{ from: location }} replace />;
+            return <Navigate to="/login" state={{ from: '/' }} replace />;
         }
 
     }
