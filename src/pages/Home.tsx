@@ -11,7 +11,7 @@ import {
   RightSidebar,
   TopNavigation,
 } from '@atlaskit/page-layout';
-import {Outlet, redirect} from "react-router-dom";
+import {Outlet, redirect, useLocation} from "react-router-dom";
 import AuthStatus from "../services/AuthStatus";
 import Sidebar from "../components/layout/Sidebar";
 import "../styles/home.css";
@@ -52,15 +52,52 @@ const initialState = {
 function Home() {
   const [gridState, setGridState] = useState(initialState);
 
-  return (
-    <>
+  const location = useLocation();
+  console.log('Current Path:', location.pathname);
 
-    </>
+  return (
+    <PageLayout>
+    {gridState.isBannerShown && (
+      <Banner>Welcome to the Home Page!</Banner>
+    )}
+
+    {gridState.isTopNavigationShown && (
+      <TopNavigation>Home Navigation</TopNavigation>
+    )}
+
+    {gridState.isLeftPanelShown && (
+      <LeftPanel>
+        <Sidebar />
+      </LeftPanel>
+    )}
+
+    {gridState.isLeftSidebarShown && (
+      <LeftSidebar>
+        <p>Additional Navigation</p>
+      </LeftSidebar>
+    )}
+
+    {gridState.isMainShown && (
+      <Main>
+        <Content>
+          <Outlet />
+        </Content>
+      </Main>
+    )}
+
+    {gridState.isRightSidebarShown && (
+      <RightSidebar>
+        <p>Right Sidebar Content</p>
+      </RightSidebar>
+    )}
+
+    {gridState.isRightPanelShown && (
+      <RightPanel>
+        <p>Extra Information</p>
+      </RightPanel>
+    )}
+  </PageLayout>
   );
 }
-
-
-              {/* 2️⃣ Render the app routes via the Layout Outlet */}
-              {/* <Outlet /> */}
 
 export default Home;

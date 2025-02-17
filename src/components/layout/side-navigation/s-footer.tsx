@@ -43,7 +43,7 @@ const SFooter = () => (
     }
     iconBefore={<Icon label="mode" glyph={SampleIcon} />}
   >
-    You're in a next-gen project
+    You're in a IMS project
   </Footer>
 );
 

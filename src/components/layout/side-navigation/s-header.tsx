@@ -24,10 +24,10 @@ const SHeader = () => {
   return (
     <Header
       component={Container}
-      description="Next-gen service desk"
+      description="Hệ thống quản lý thông tin NT"
       iconBefore={<Icon label="" glyph={SampleIcon} size="large" />}
     >
-      NXTGen Industries
+      IM-System
     </Header>
   );
 };

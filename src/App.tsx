@@ -12,6 +12,9 @@ import {
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
+import Dashboard from "./components/content/Dashboard";
+import User from "./components/content/User";
+import Room from "./components/content/Room";
 import {AuthProvider} from "./services/AuthProvider";
 import RequireAuth from "./services/RequireAuth";
 
@@ -35,8 +38,11 @@ function App() {
 const ProtectedRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element = {<Home/>}/>
-      <Route path="/settings" element = {<Home/>}/>
+      <Route path="/" element = {<Home/>}>
+        <Route path="dashboard" element = {<Dashboard/>}/>
+        <Route path="users" element = {<User/>}/>
+        <Route path="rooms" element = {<Room/>}/>
+      </Route>
     </Routes>
   );
 }

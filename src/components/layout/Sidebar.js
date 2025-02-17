@@ -1,12 +1,13 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 import DropboxIcon from "@atlaskit/icon/glyph/dropbox";
 import FilterIcon from "@atlaskit/icon/glyph/filter";
 import WorkIcon from "@atlaskit/icon/glyph/folder";
 import LightbulbIcon from "@atlaskit/icon/glyph/lightbulb";
 import CustomerIcon from "@atlaskit/icon/glyph/person";
-import QueueIcon from "@atlaskit/icon/glyph/queues";
+import DashboardIcon from "@atlaskit/icon/glyph/dashboard";
 import SettingsIcon from "@atlaskit/icon/glyph/settings";
-import LanguageIcon from "@atlaskit/icon/glyph/world";
+import GraphBarIcon from "@atlaskit/icon/glyph/graph-bar";
 import {
   ButtonItem,
   LinkItem,
@@ -22,6 +23,8 @@ import SFooter from "./side-navigation/s-footer";
 import SHeader from "./side-navigation/s-header";
 
 function Sidebar() {
+  const navigate = useNavigate();
+
   return (
     <AppFrame shouldHideAppBar shouldHideBorder>
       <SideNavigation label='project' testId='side-navigation'>
@@ -33,10 +36,10 @@ function Sidebar() {
           testId='nestable-navigation-content'>
           <Section isList>
             <NestingItem
-              id='2'
+              id='1'
               testId='filter-nesting-item'
-              title='Filters'
-              iconBefore={<FilterIcon label='' />}
+              title='Dashboard'
+              iconBefore={<DashboardIcon label='' />}
               iconAfter={<LightbulbIcon label='' />}>
               <Section>
                 <ButtonItem>Search issues</ButtonItem>
@@ -57,19 +60,16 @@ function Sidebar() {
               </Section>
             </NestingItem>
             <NestingItem
-              id='1'
+              id='2'
               isSelected
-              title='Queues view'
-              iconBefore={<QueueIcon label='' />}>
-              <Section title='Queues' isList>
-                <ButtonItem>Untriaged</ButtonItem>
-                <ButtonItem>My feature work</ButtonItem>
-                <ButtonItem>My bugfix work</ButtonItem>
-                <ButtonItem>Signals</ButtonItem>
-                <ButtonItem>Assigned to me</ButtonItem>
+              title='Chart'
+              iconBefore={<GraphBarIcon label='Chart' />}>
+              <Section title='Monthly' isList>
+                <ButtonItem>Electricity</ButtonItem>
+                <ButtonItem>Water</ButtonItem>
               </Section>
               <Section hasSeparator>
-                <ButtonItem>New queue</ButtonItem>
+                <ButtonItem>New Chart</ButtonItem>
               </Section>
             </NestingItem>
             <NestingItem
@@ -78,24 +78,10 @@ function Sidebar() {
               title='Settings'
               testId='settings-nesting-item'>
               <Section>
-                <NestingItem
-                  iconBefore={<LanguageIcon label='' />}
-                  id='3-1'
-                  title='Language settings'>
-                  <Section>
-                    <ButtonItem>Customize</ButtonItem>
-                    <NestingItem id='3-1-1' title='German Settings'>
-                      <Section>
-                        <ButtonItem>Hallo Welt!</ButtonItem>
-                      </Section>
-                    </NestingItem>
-                    <NestingItem id='3-1-2' title='English Settings'>
-                      <Section>
-                        <ButtonItem>Hello World!</ButtonItem>
-                      </Section>
-                    </NestingItem>
-                  </Section>
-                </NestingItem>
+                <ButtonItem onClick={() => navigate("/users")}>
+                  Users
+                </ButtonItem>
+                <ButtonItem onClick={() => navigate("/rooms")}>Room</ButtonItem>
               </Section>
             </NestingItem>
             <NestingItem
