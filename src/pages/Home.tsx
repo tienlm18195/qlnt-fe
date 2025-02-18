@@ -14,6 +14,7 @@ import {
 import {Outlet, redirect, useLocation} from "react-router-dom";
 import AuthStatus from "../services/AuthStatus";
 import Sidebar from "../components/layout/Sidebar";
+import Header from "../components/layout/Header";
 import "../styles/home.css";
 
 type SlotName =
@@ -58,7 +59,7 @@ function Home() {
   return (
     <PageLayout>
     {gridState.isBannerShown && (
-      <Banner>Welcome to the Home Page!</Banner>
+      <Header />
     )}
 
     {gridState.isTopNavigationShown && (
