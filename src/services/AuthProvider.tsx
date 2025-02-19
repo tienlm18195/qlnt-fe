@@ -1,4 +1,5 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 import AuthContextType from "../services/AuthContextType";
 import { FIELDS } from "../constant";
 
@@ -14,6 +15,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(null);
+  const navigate = useNavigate();
 
   let signin = (userData: String, callback: VoidFunction) => {
     return () => {
@@ -21,7 +23,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       callback()
     }
   };
-  let signout = () => setUser(null);
+  let signout = (callback: VoidFunction) => {
+      console.log("Signout !!!")
+      setUser(null)
+      navigate('/login')
+      callback()
+  };
 
   return <AuthContext.Provider value={{ user, signin, signout }}>
     {children}

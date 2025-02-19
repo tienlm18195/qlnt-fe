@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
 
+import {useNavigate} from "react-router-dom";
 import Box, { BoxProps } from '@atlaskit/ds-explorations/box';
 import Icon from '@atlaskit/icon';
+import Avatar from "@atlaskit/avatar";
 import { CustomItemComponentProps } from '@atlaskit/menu';
-
 import { Header } from '@atlaskit/side-navigation';
-
 import SampleIcon from './s-logo';
 
 const Container = ({ children, ...props }: CustomItemComponentProps) => {
@@ -21,13 +21,17 @@ const Container = ({ children, ...props }: CustomItemComponentProps) => {
 };
 
 const SHeader = () => {
+  const username = localStorage.getItem("userName");
+  const avatarUrl = "https://i.pravatar.cc/150?img=3";
+  const navigate = useNavigate();
   return (
     <Header
       component={Container}
-      description="Hệ thống quản lý thông tin NT"
-      iconBefore={<Icon label="" glyph={SampleIcon} size="large" />}
+      description="IMSystem"
+      iconBefore={<Avatar src={avatarUrl} size='large' />}
+      onClick={() => navigate("/profile")}
     >
-      IM-System
+      {username}
     </Header>
   );
 };

@@ -58,9 +58,9 @@ function Home() {
 
   return (
     <PageLayout>
-    {gridState.isBannerShown && (
+    {/* {gridState.isBannerShown && (
       <Header />
-    )}
+    )} */}
 
     {gridState.isTopNavigationShown && (
       <TopNavigation>Home Navigation</TopNavigation>

@@ -1,7 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import DropboxIcon from "@atlaskit/icon/glyph/dropbox";
-import FilterIcon from "@atlaskit/icon/glyph/filter";
 import WorkIcon from "@atlaskit/icon/glyph/folder";
 import LightbulbIcon from "@atlaskit/icon/glyph/lightbulb";
 import CustomerIcon from "@atlaskit/icon/glyph/person";
@@ -21,9 +20,11 @@ import {
 import AppFrame from "./side-navigation/app-frame";
 import SFooter from "./side-navigation/s-footer";
 import SHeader from "./side-navigation/s-header";
+import {useAuth} from "../../services/AuthProvider";
 
 function Sidebar() {
   const navigate = useNavigate();
+  let auth = useAuth();
 
   return (
     <AppFrame shouldHideAppBar shouldHideBorder>
@@ -84,21 +85,28 @@ function Sidebar() {
                 <ButtonItem onClick={() => navigate("/rooms")}>Room</ButtonItem>
               </Section>
             </NestingItem>
-            <NestingItem
-              id='4'
-              iconBefore={<DropboxIcon label='' />}
-              title='Dropbox'
-              testId='dropbox-nesting-item'
-              isDisabled>
-              <span />
-            </NestingItem>
             <ButtonItem iconBefore={<WorkIcon label='' />}>
               Your work
             </ButtonItem>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <LinkItem href='#' iconBefore={<CustomerIcon label='' />}>
-              Your customers
-            </LinkItem>
+            <NestingItem
+              id='5'
+              iconBefore={<CustomerIcon label='' />}
+              title='My Account'
+              testId='my-account-nesting-item'>
+              <Section>
+                <ButtonItem onClick={() => navigate("/profile")}>
+                  Profile
+                </ButtonItem>
+                <ButtonItem
+                  onClick={() => {
+                    auth.signout(() => {
+                      console.log("abccc");
+                    });
+                  }}>
+                  Logout
+                </ButtonItem>
+              </Section>
+            </NestingItem>
           </Section>
         </NestableNavigationContent>
         <NavigationFooter>
