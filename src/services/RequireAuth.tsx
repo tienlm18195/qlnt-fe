@@ -15,8 +15,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
         if (username && jwt) {
             validToken(username)
-                .then((res: AxiosResponse<any, any>) => {
-                    console.log('res', res);
+                .then(() => {
                     auth.signin(username, () => {
                         console.log('SignIn!!');
                     });

@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Dashboard from "./components/content/Dashboard";
-import User from "./components/content/User";
+import User from "./components/content/User/User";
 import Room from "./components/content/Room";
 import {AuthProvider} from "./services/AuthProvider";
 import RequireAuth from "./services/RequireAuth";

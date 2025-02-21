@@ -22,7 +22,7 @@ const Container = ({ children, ...props }: CustomItemComponentProps) => {
 
 const SHeader = () => {
   const username = localStorage.getItem("userName");
-  const avatarUrl = "https://i.pravatar.cc/150?img=3";
+  const avatarUrl = "";
   const navigate = useNavigate();
   return (
     <Header

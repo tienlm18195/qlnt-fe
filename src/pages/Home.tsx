@@ -74,7 +74,7 @@ function Home() {
 
     {gridState.isLeftSidebarShown && (
       <LeftSidebar>
-        <p>Additional Navigation</p>
+        <Sidebar />
       </LeftSidebar>
     )}
 

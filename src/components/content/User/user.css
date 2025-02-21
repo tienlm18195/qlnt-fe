@@ -1,0 +1,102 @@
+#userPage {
+    background-color: #ffffff;
+    width: auto;
+    height: 540px;
+    padding: 30px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa avatar và tên */
+  }
+  
+  .user-info .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #284561;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .user-info .user-name:hover {
+    color: #005bb5;
+  }
+
+.search-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox-column {
+  grid-column: span 3;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa label và checkbox */
+}
+
+.checkbox-group input {
+  width: 16px; /* Thu nhỏ kích thước checkbox */
+  height: 16px;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.form-group input,
+.form-group select {
+  width: 230px;
+  padding: 6px;
+  font-size: 11px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-actions {
+  grid-column: span 3;
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  padding: 6px 14px; /* Thu nhỏ nút */
+  font-size: 14px;
+  border: none;
+  background-color: #0073e6;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #005bb5;
+}
+  
+  
+  
+  
+  
