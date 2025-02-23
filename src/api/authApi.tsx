@@ -35,3 +35,24 @@ export const getAllUsers = (searchData) => {
     headers: {Authorization: `Bearer ${jwt}` }
   });
 };
+
+export const getUserDetailById = (userId) => {
+  const jwt = localStorage.getItem("jwt");
+  return axiosClient.get(`${settingAPI}/user/${userId}`, {
+    headers: {Authorization: `Bearer ${jwt}` }
+  });
+}
+
+export const updateUserById = (id, user) => {
+  const jwt = localStorage.getItem("jwt");
+  return axiosClient.put(`${settingAPI}/user/${id}`, user, {
+    headers: {Authorization: `Bearer ${jwt}` }
+  });
+}
+
+export const deleteUserById = (id) => {
+  const jwt = localStorage.getItem("jwt");
+  return axiosClient.delete(`${settingAPI}/user/${id}`, {
+    headers: {Authorization: `Bearer ${jwt}` }
+  });
+}

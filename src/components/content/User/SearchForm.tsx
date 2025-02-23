@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import AddIcon from '@atlaskit/icon/glyph/add';
 import "../User/user.css";
 
-const SearchForm = ({ submitSearchForm }) => {
+const SearchForm = ({ submitSearchForm, onSearchChange, openCreateModal }) => {
   const [searchData, setSearchData] = useState({
     fullName: "",
     email: "",
@@ -18,6 +19,7 @@ const SearchForm = ({ submitSearchForm }) => {
 
   useEffect(() => {
     submitSearchForm(searchData);
+    onSearchChange?.(searchData); 
   }, []);
 
   const handleChange = (e) => {
@@ -26,6 +28,8 @@ const SearchForm = ({ submitSearchForm }) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    onSearchChange?.(searchData); 
   };
 
   const handleSubmit = (e) => {
@@ -91,6 +95,13 @@ const SearchForm = ({ submitSearchForm }) => {
         </div>
       </div>
 
+      <div className="form-actions">
+        <button className='create-buttons' type='button' onClick={openCreateModal}>
+          <AddIcon label="New" size='small'/>
+          <span>New</span>
+        </button>
+      </div>
+      
       {/* Button Search căn giữa */}
       <div className="form-actions">
         <button type="submit">Search</button>

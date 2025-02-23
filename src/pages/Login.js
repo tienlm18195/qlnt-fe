@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from "react";
+import React, {Fragment} from "react";
 
 import {useNavigate, useLocation, Link} from "react-router-dom";
 import ButtonGroup from "@atlaskit/button/button-group";
@@ -30,16 +30,16 @@ function Login() {
   let auth = useAuth();
   let from = location.state?.from?.pathname || "/";
 
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    // Lấy userName từ localStorage
-    const savedUserName = localStorage.getItem("signupUserName");
-    if (savedUserName) {
-      setUserName(savedUserName);
-      localStorage.removeItem("signupUserName"); // Xóa sau khi sử dụng
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Lấy userName từ localStorage
+  //   const savedUserName = localStorage.getItem("signupUserName");
+  //   if (savedUserName) {
+  //     setUserName(savedUserName);
+  //     localStorage.removeItem("signupUserName"); // Xóa sau khi sử dụng
+  //   }
+  // }, []);
 
   const handleSubmit = (data) => {
     authenticate(data.username, data.password)

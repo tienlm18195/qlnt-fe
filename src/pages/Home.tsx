@@ -1,31 +1,17 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {
-  Banner,
   Content,
   LeftPanel,
   LeftSidebar,
-  LeftSidebarState,
   Main,
   PageLayout,
   RightPanel,
   RightSidebar,
   TopNavigation,
 } from '@atlaskit/page-layout';
-import {Outlet, redirect, useLocation} from "react-router-dom";
-import AuthStatus from "../services/AuthStatus";
+import {Outlet, useLocation} from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
-import Header from "../components/layout/Header";
 import "../styles/home.css";
-
-type SlotName =
-  | 'Banner'
-  | 'TopNavigation'
-  | 'LeftPanel'
-  | 'LeftSidebar'
-  | 'Main'
-  | 'RightSidebar'
-  | 'RightPanel'
-  | 'PageLayout';
 
 const initialState = {
   isBannerShown: true,

@@ -1,7 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import AuthContextType from "../services/AuthContextType";
-import { FIELDS } from "../constant";
 
 let AuthContext = React.createContext<AuthContextType>(null!);
 export function useAuth() {

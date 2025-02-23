@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
+import React from "react";
 
 import { HORIZONTAL_GLOBAL_NAV_HEIGHT } from '@atlaskit/atlassian-navigation';
 import { N40 } from '@atlaskit/theme/colors';
@@ -24,18 +23,18 @@ const AppFrame = ({
     // eslint-disable-next-line
     <div
       onClick={(e) => e.preventDefault()}
-      css={{
+      style={{
         height: '100%',
         minHeight: 600,
       }}
     >
       {shouldHideAppBar || (
-        <div css={{ zIndex: 10, position: 'relative' }}>
+        <div style={{ zIndex: 10, position: 'relative' }}>
           <GlobalNav />
         </div>
       )}
       <div
-        css={{
+        style={{
           height: shouldHideAppBar
             ? '100%'
             : `calc(100% - ${HORIZONTAL_GLOBAL_NAV_HEIGHT}px)`,
@@ -44,7 +43,7 @@ const AppFrame = ({
         }}
       >
         <div
-          css={{
+          style={{
             minHeight: 600,
             borderRight: shouldHideBorder
               ? undefined

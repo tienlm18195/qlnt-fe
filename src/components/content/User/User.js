@@ -2,28 +2,78 @@ import React, {useCallback, useEffect, useState} from "react";
 import DynamicTable from "@atlaskit/dynamic-table";
 import Pagination from "@atlaskit/pagination";
 import Avatar from "@atlaskit/avatar";
+import TrashIcon from "@atlaskit/icon/glyph/trash";
+import EditIcon from "@atlaskit/icon/glyph/edit";
+import Modal, {
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  ModalTransition,
+} from "@atlaskit/modal-dialog";
+import EditUserModal from "./modal/EditUserModal";
+import DeleteUserModal from "./modal/DeleteUserModal";
 import {getAllUsers} from "../../../api/authApi";
-import {head} from "./UserData";
 import "../User/user.css";
 import {Link} from "react-router-dom";
 import SearchForm from "../User/SearchForm";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const pageSize = 10;
+  const [selectedUser, setSelectedUser] = useState("");
 
-  const headTable = head;
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [searchData, setSearchParams] = useState({});
+
+  const handleSearchDataChange = (newSearchData) => {
+    setSearchParams(newSearchData);
+  };
+
+  const handleCreate = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    console.log("Delete user:", selectedUser);
+
+    setIsDeleteModalOpen(false);
+  };
+
+  // Mở modal khi nhấn Edit
+  const openModal = (action, user) => {
+    setSelectedUser(user);
+
+    switch (action) {
+      case "edit":
+        setIsEditModalOpen(true);
+        break;
+      case "delete":
+        setIsDeleteModalOpen(true);
+        break;
+      case "create":
+        setIsCreateModalOpen(true);
+        break;
+    }
+  };
+
+  const closeModal = () => {
+    setIsEditModalOpen(false);
+    setIsDeleteModalOpen(false);
+    setIsCreateModalOpen(false);
+
+    submitSearchForm(searchData);
+  };
 
   const submitSearchForm = (searchData) => {
     setIsLoading(true);
 
     getAllUsers(searchData).then((response) => {
-      console.log(response);
       const data = response.data;
       const users = data.users;
       const newRows = users.map((user) => ({
@@ -42,9 +92,32 @@ const Users = () => {
             ),
           },
           {key: "email", content: user.email || "N/A"},
-          {key: "birthYear", content: user.birthYear || "Unknown"},
+          {key: "dateOfBirth", content: user.dateOfBirth || "Unknown"},
           {key: "status", content: user.status === 0 ? "Active" : "Inactive"},
           {key: "blackList", content: user.blackList ? "Yes" : "No"},
+          {
+            key: "actions",
+            content: (
+              <div className='action-group'>
+                <button
+                  className='edit-buttons'
+                  appearance='subtle'
+                  onClick={() => {
+                    openModal("edit", user);
+                  }}>
+                  <EditIcon label='Edit' size='medium' />
+                </button>
+                <button
+                  className='delete-buttons'
+                  appearance='subtle'
+                  onClick={() => {
+                    openModal("delete", user);
+                  }}>
+                  <TrashIcon label='Delete' size='medium' />
+                </button>
+              </div>
+            ),
+          },
         ],
       }));
 
@@ -55,33 +128,76 @@ const Users = () => {
     });
   };
 
+  const head = {
+    cells: [
+      {key: "fullName", content: "Full Name", isSortable: true},
+      {key: "email", content: "Email", isSortable: true},
+      {key: "dateOfBirth", content: "Date Of Birth", isSortable: true},
+      {key: "status", content: "Status", isSortable: true},
+      {key: "blackList", content: "Black List", isSortable: true},
+      {key: "actions", content: "Actions"},
+    ],
+  };
+
   return (
     <div id='userPage'>
-      <SearchForm submitSearchForm={submitSearchForm} />
+      <SearchForm
+        submitSearchForm={submitSearchForm}
+        onSearchChange={handleSearchDataChange}
+        openCreateModal={() => {
+          openModal("create");
+        }}
+      />
 
-      {
-        <DynamicTable
-          head={headTable}
-          rows={rows}
-          rowsPerPage={pageSize}
-          defaultPage={1}
-          isFixedSize
-          onSetPage={setPage}
-          isRankable
-          isLoading={isLoading}
-          loadingSpinnerSize='large'
-          caption='List of Users'
-        />
-      }
+      <DynamicTable
+        head={head}
+        rows={rows}
+        rowsPerPage={10}
+        defaultPage={1}
+        onSetPage={setPage}
+        isRankable
+        isLoading={isLoading}
+        loadingSpinnerSize='large'
+        caption='List of Users'
+      />
       <div
         style={{marginTop: "20px", display: "flex", justifyContent: "center"}}>
         <Pagination
-          pages={[...Array(Math.ceil(total / pageSize)).keys()].map(
-            (i) => i + 1
-          )}
+          pages={[...Array(Math.ceil(total / 10)).keys()].map((i) => i + 1)}
           onChange={(e, newPage) => setPage(newPage)}
         />
       </div>
+
+      {isCreateModalOpen && (
+        <Modal onClose={() => setIsCreateModalOpen(false)}>
+          <ModalHeader>
+            <ModalTitle>Create User</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <p>Create user</p>
+          </ModalBody>
+          <ModalFooter>
+            <button onClick={() => setIsCreateModalOpen(false)}>Cancel</button>
+            <button onClick={() => handleCreate()}>Save</button>
+          </ModalFooter>
+        </Modal>
+      )}
+
+      {isEditModalOpen && (
+        <EditUserModal
+          user={selectedUser}
+          isOpen={isEditModalOpen}
+          onClose={closeModal}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteUserModal
+          user={selectedUser}
+          isOpen={isDeleteModalOpen}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };

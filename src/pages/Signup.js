@@ -6,7 +6,6 @@ import Button from "@atlaskit/button/standard-button";
 import {Checkbox} from "@atlaskit/checkbox";
 import TextField from "@atlaskit/textfield";
 import {registerUser} from "../api/authApi";
-import {useAuth} from "../services/AuthProvider";
 import Form, {
   CheckboxField,
   ErrorMessage,
@@ -16,14 +15,11 @@ import Form, {
   FormSection,
   HelperMessage,
   RequiredAsterisk,
-  ValidMessage,
 } from "@atlaskit/form";
 import "../styles/signup.css";
-import {FIELDS} from "../constant";
 
 function Signup() {
   let navigate = useNavigate();
-  let auth = useAuth();
 
   const handleSubmit = (data) => {
     registerUser(data)

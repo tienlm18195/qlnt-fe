@@ -1,6 +1,5 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import DropboxIcon from "@atlaskit/icon/glyph/dropbox";
 import WorkIcon from "@atlaskit/icon/glyph/folder";
 import LightbulbIcon from "@atlaskit/icon/glyph/lightbulb";
 import CustomerIcon from "@atlaskit/icon/glyph/person";

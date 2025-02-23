@@ -62,6 +62,12 @@
   gap: 5px;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
 .form-group label {
   font-weight: bold;
   font-size: 11px;
@@ -77,24 +83,146 @@
 }
 
 .form-actions {
-  grid-column: span 3;
+  display: flex;
   text-align: center;
   margin-top: 10px;
 }
 
 button {
-  padding: 6px 14px; /* Thu nhỏ nút */
+  padding: 6px 14px;
   font-size: 14px;
   border: none;
-  background-color: #0073e6;
-  color: white;
   cursor: pointer;
   border-radius: 5px;
 }
 
-button:hover {
-  background-color: #005bb5;
+.form-actions button[type="submit"] {
+  margin: 0 auto; 
+  background-color: #253858;
+  color: white;
 }
+
+.form-actions button:hover {
+  background-color: #253858;
+}
+
+.create-buttons {
+  margin-left: 0;
+  background-color: white;
+  color: #253858;
+  border: 1px solid #253858;
+}
+.create-buttons:hover {
+  background-color: #253858;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.edit-buttons {
+  background-color: white;
+  color: #253858;
+}
+.edit-buttons:hover {
+  background-color: #253858;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-buttons {
+  background-color: white;
+  color: #c1320a;
+}
+.delete-buttons:hover {
+  background-color: #c1320a;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.edit-user-modal {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 500px;
+  margin: auto;
+}
+
+.edit-user-form {
+  padding: 15px;
+}
+
+.edit-user-modal .form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-user-modal label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.edit-user-modal input,
+.edit-user-modal select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.edit-user-modal input:focus,
+.edit-user-modal select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.edit-user-modal select {
+  cursor: pointer;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Chia thành 2 cột */
+  gap: 15px;
+  padding: 20px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  background: white;
+}
+
+.modal-footer button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.modal-footer button:first-child {
+  background: #ccc;
+  color: #333;
+}
+
+.modal-footer button:first-child:hover {
+  background: #b3b3b3;
+}
+
+.modal-footer button:last-child {
+  background: #007bff;
+  color: white;
+}
+
+.modal-footer button:last-child:hover {
+  background: #0056b3;
+}
+
   
   
   

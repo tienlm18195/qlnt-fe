@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
-
+import React from "react";
 import {useNavigate} from "react-router-dom";
 import Box, { BoxProps } from '@atlaskit/ds-explorations/box';
 import Icon from '@atlaskit/icon';

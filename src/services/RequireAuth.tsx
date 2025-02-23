@@ -1,13 +1,11 @@
 import React from "react";
-import useContext, {useLocation, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 
 import {validToken} from "../api/authApi";
-import {AxiosResponse} from "axios";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
     let auth = useAuth();
-    let location = useLocation();
 
     if (!auth || !auth.user) {
         let username = localStorage.getItem('userName');
