@@ -138,6 +138,16 @@ button {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.restore-buttons {
+  background-color: white;
+  color: #81e261;
+}
+.restore-buttons:hover {
+  background-color: #81e261;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .edit-user-modal {
   padding: 20px;
   font-family: Arial, sans-serif;

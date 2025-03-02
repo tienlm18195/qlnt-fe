@@ -4,6 +4,7 @@ import Pagination from "@atlaskit/pagination";
 import Avatar from "@atlaskit/avatar";
 import TrashIcon from "@atlaskit/icon/glyph/trash";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import RetryIcon from "@atlaskit/icon/glyph/retry";
 import Modal, {
   ModalBody,
   ModalFooter,
@@ -54,6 +55,7 @@ const Users = () => {
         setIsEditModalOpen(true);
         break;
       case "delete":
+      case "restore":
         setIsDeleteModalOpen(true);
         break;
       case "create":
@@ -108,12 +110,22 @@ const Users = () => {
                   <EditIcon label='Edit' size='medium' />
                 </button>
                 <button
-                  className='delete-buttons'
+                  className={
+                    user.deleted ? "restore-buttons" : "delete-buttons"
+                  }
                   appearance='subtle'
                   onClick={() => {
-                    openModal("delete", user);
+                    if (user.deleted) {
+                      openModal("restore", user); // Xử lý khôi phục user
+                    } else {
+                      openModal("delete", user); // Mở modal xác nhận xóa
+                    }
                   }}>
-                  <TrashIcon label='Delete' size='medium' />
+                  {user.deleted ? (
+                    <RetryIcon label='restore' size='medium' />
+                  ) : (
+                    <TrashIcon label='Delete' size='medium' />
+                  )}
                 </button>
               </div>
             ),

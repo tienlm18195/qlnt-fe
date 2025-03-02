@@ -20,10 +20,10 @@ const DeleteUserModal = ({ user, isOpen, onClose }) => {
     isOpen && (
         <Modal onClose={onClose}>
           <ModalHeader>
-            <ModalTitle>Confirm Delete</ModalTitle>
+            <ModalTitle>Confirm {user.deleted ? "Restore" : "Delete"}</ModalTitle>
           </ModalHeader>
           <ModalBody>
-            <p>Are you sure you want to delete {user?.fullName}?</p>
+            <p>Are you sure you want to {user.deleted ? "restore" : "delete"} {user?.fullName}?</p>
           </ModalBody>
           <ModalFooter>
             <button onClick={onClose}>Cancel</button>
@@ -31,7 +31,7 @@ const DeleteUserModal = ({ user, isOpen, onClose }) => {
               onClick={() => {
                 handleSubmit();
               }}>
-              Delete
+              {user.deleted ? "Restore" : "Delete"}
             </button>
           </ModalFooter>
         </Modal>

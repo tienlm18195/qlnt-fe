@@ -37,6 +37,7 @@ function Sidebar() {
           <Section isList>
             <NestingItem
               id='1'
+              isSelected
               testId='filter-nesting-item'
               title='Dashboard'
               iconBefore={<DashboardIcon label='' />}
@@ -61,7 +62,6 @@ function Sidebar() {
             </NestingItem>
             <NestingItem
               id='2'
-              isSelected
               title='Chart'
               iconBefore={<GraphBarIcon label='Chart' />}>
               <Section title='Monthly' isList>
